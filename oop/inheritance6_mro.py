@@ -14,18 +14,16 @@ class Woman(Human):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.__dict__.update(kwargs)
-        self.gifts = ['proficient in 10 programming languages']
+        self.gifts = ['proficient in 10 programming languages']  # won't be inherited to `fatimah`
 
-class Child(Human, Woman):  # TypeError: Cannot create a consistent method resolution order (MRO) for bases Human, Woman
+class Child(Man, Woman):  # `fatimah` attributes come from ian
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+ian = Man(name='Madyan', birthday=1995)
+olive = Woman(name='Olivia', hobby='singing', address='Australia', status='married')
+fatimah = Child(name='Fatimah')
+
 ##################################################
 
-# Why the error appears?
-#
-# Because either the Man or Woman already inherits from `Human`.
-# Python now cannot determine what class to look methods up on first; either Man, or on Woman,
-# which would override things defined in Human.
-# 
-# https://stackoverflow.com/questions/29214888/typeerror-cannot-create-a-consistent-method-resolution-order-mro
+print(vars(fatimah))  # {'alive': True, 'name': 'Fatimah', 'birthday': None, 'hobby': None, 'gifts': ['clever', 'strong']}
